@@ -388,7 +388,7 @@ print("probeinstall in devprobe\n");
 	return n;
 }
 
-Dev probedevtab = {
+Dev probedevtab __devtab = {
 	'+',
 	"probe",
 	devreset,

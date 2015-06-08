@@ -216,7 +216,7 @@ kprofwrite(Chan *c, void *a, int32_t n, int64_t m)
 	return n;
 }
 
-Dev kprofdevtab = {
+Dev kprofdevtab __devtab = {
 	'K',
 	"kprof",
 

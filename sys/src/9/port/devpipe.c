@@ -383,7 +383,7 @@ pipebwrite(Chan *c, Block *bp, int64_t mm)
 	return n;
 }
 
-Dev pipedevtab = {
+Dev pipedevtab __devtab = {
 	'|',
 	"pipe",
 

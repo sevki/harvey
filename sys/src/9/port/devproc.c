@@ -1299,7 +1299,7 @@ procwrite(Chan *c, void *va, int32_t n, int64_t off)
 	return n;
 }
 
-Dev procdevtab = {
+Dev procdevtab __devtab = {
 	'p',
 	"proc",
 

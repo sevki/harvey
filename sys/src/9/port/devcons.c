@@ -1217,7 +1217,7 @@ conswrite(Chan *c, void *va, int32_t n, int64_t off)
 	return n;
 }
 
-Dev consdevtab = {
+Dev consdevtab __devtab = {
 	'c',
 	"cons",
 

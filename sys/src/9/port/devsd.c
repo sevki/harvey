@@ -1483,7 +1483,7 @@ sdconfig(int on, char* spec, DevConf* cf)
 	return unconfigure(spec);
 }
 
-Dev sddevtab = {
+Dev sddevtab __devtab = {
 	'S',
 	"sd",
 

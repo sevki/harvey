@@ -882,7 +882,7 @@ tracewrite(Chan *c, void *a, int32_t n, int64_t mm)
 	return n;
 }
 
-Dev tracedevtab = {
+Dev tracedevtab __devtab = {
 	'T',
 	"trace",
 	devreset,

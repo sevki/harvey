@@ -1755,7 +1755,7 @@ tlsinit(void)
 	*cp = 0;
 }
 
-Dev tlsdevtab = {
+Dev tlsdevtab __devtab = {
 	'a',
 	"tls",
 

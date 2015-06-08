@@ -587,7 +587,7 @@ uartpower(int on)
 	}
 }
 
-Dev uartdevtab = {
+Dev uartdevtab __devtab = {
 	't',
 	"uart",
 

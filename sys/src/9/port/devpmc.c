@@ -432,7 +432,7 @@ pmcwrite(Chan *c, void *a, int32_t n, int64_t mm)
 }
 
 
-Dev pmcdevtab = {
+Dev pmcdevtab __devtab = {
 	L'ε',
 	"pmc",
 

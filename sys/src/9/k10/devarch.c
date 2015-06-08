@@ -492,7 +492,7 @@ archwrite(Chan *c, void *a, int32_t n, int64_t offset)
 	return 0;
 }
 
-Dev archdevtab = {
+Dev archdevtab __devtab = {
 	'P',
 	"arch",
 

@@ -19,13 +19,18 @@
 
 extern Dev* devtab[];
 
+extern Dev __devtabstart[];
+extern Dev __devtabend[];
+extern Dev newdevtab[];
+
 void
 devtabreset(void)
 {
 	int i;
 
-	for(i = 0; devtab[i] != nil; i++) {
-		devtab[i]->reset();
+	for (i = 0; &__devtabstart[i] < &__devtabend[0]; i++) {
+		print("Dev reset %s\n", __devtabstart[i].name);
+		__devtabstart[i].reset();
 	}
 }
 

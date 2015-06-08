@@ -580,7 +580,7 @@ zpzwrite(Chan *c, Kzio io[], int nio, int64_t mm)
 }
 
 
-Dev zpdevtab = {
+Dev zpdevtab __devtab = {
 	L'∏',
 	"zp",
 

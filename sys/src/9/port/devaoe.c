@@ -2520,7 +2520,7 @@ aoewrite(Chan *c, void *db, int32_t n, int64_t off)
 	}
 }
 
-Dev aoedevtab = {
+Dev aoedevtab __devtab = {
 	L'æ',
 	"aoe",
 

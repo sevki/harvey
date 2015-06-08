@@ -274,7 +274,7 @@ capwrite(Chan *c, void *va, int32_t n, int64_t m)
 	return n;
 }
 
-Dev capdevtab = {
+Dev capdevtab __devtab = {
 	L'¤',
 	"cap",
 

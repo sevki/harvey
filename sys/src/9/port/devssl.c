@@ -1251,7 +1251,7 @@ sslinit(void)
 	*cp = 0;
 }
 
-Dev ssldevtab = {
+Dev ssldevtab __devtab = {
 	'D',
 	"ssl",
 

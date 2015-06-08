@@ -1480,7 +1480,7 @@ usbshutdown(void)
 	}
 }
 
-Dev usbdevtab = {
+Dev usbdevtab __devtab = {
 	L'u',
 	"usb",
 

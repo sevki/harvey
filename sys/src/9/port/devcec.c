@@ -899,7 +899,7 @@ cecinit(void)
 	addconsdev(nil, cecputs, -1, 0);
 }
 
-Dev cecdevtab = {
+Dev cecdevtab __devtab = {
 	L'©',
 	"cec",
 

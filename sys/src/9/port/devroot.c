@@ -241,7 +241,7 @@ rootwrite(Chan* c, void* v, int32_t n, int64_t m)
 	return 0;
 }
 
-Dev rootdevtab = {
+Dev rootdevtab __devtab = {
 	'/',
 	"root",
 

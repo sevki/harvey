@@ -309,7 +309,7 @@ envwrite(Chan *c, void *a, int32_t n, int64_t off)
 	return n;
 }
 
-Dev envdevtab = {
+Dev envdevtab __devtab = {
 	'e',
 	"env",
 

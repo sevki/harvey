@@ -514,7 +514,7 @@ ethercrc(uint8_t *p, int len)
 	return crc;
 }
 
-Dev etherdevtab = {
+Dev etherdevtab __devtab = {
 	'l',
 	"ether",
 

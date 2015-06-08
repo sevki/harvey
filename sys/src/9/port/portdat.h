@@ -276,7 +276,7 @@ struct Dev
 	int	(*config)(int, char*, DevConf*);	/* returns 0 on error */
 	int	(*zread)(Chan*, Kzio*, int, usize, int64_t);
 	int	(*zwrite)(Chan*, Kzio*, int, int64_t);
-};
+} __attribute__ ((aligned(64)));
 
 struct Dirtab
 {

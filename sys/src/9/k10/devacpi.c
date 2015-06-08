@@ -1702,7 +1702,7 @@ acpiwrite(Chan *c, void *a, int32_t n, int64_t off)
 }
 
 
-Dev acpidevtab = {
+Dev acpidevtab __devtab = {
 	L'α',
 	"acpi",
 

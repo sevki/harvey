@@ -160,7 +160,7 @@ wswrite(Chan *c, void *a, int32_t n, int64_t m)
 	return n;
 }
 
-Dev wsdevtab = {
+Dev wsdevtab __devtab = {
 	'W',
 	"waitstats",
 

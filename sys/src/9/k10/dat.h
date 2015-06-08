@@ -437,3 +437,5 @@ extern char dbgflg[256];
 
 #define dbgprint	print		/* for now */
 
+/* special sections */
+#define __devtab  __attribute__((__section__(".devtab")))

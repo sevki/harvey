@@ -130,7 +130,7 @@ wdwrite(Chan* c, void* a, int32_t n, int64_t off)
 	return 0;
 }
 
-Dev wddevtab = {
+Dev wddevtab __devtab = {
 	'w',
 	"watchdog",
 

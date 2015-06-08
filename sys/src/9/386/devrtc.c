@@ -313,7 +313,7 @@ rtcwrite(Chan* c, void* buf, int32_t n, int64_t off)
 	return 0;
 }
 
-Dev rtcdevtab = {
+Dev rtcdevtab __devtab = {
 	'r',
 	"rtc",
 

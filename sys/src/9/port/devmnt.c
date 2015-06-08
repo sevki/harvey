@@ -1202,7 +1202,7 @@ rpcattn(void *v)
 	return r->done || r->m->rip == 0;
 }
 
-Dev mntdevtab = {
+Dev mntdevtab __devtab = {
 	'M',
 	"mnt",
 

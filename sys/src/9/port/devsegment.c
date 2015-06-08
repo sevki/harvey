@@ -760,7 +760,7 @@ segmentkproc(void *arg)
 	}
 }
 
-Dev segmentdevtab = {
+Dev segmentdevtab __devtab = {
 	'g',
 	"segment",
 

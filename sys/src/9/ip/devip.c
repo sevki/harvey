@@ -1201,7 +1201,7 @@ ipbwrite(Chan* ch, Block* bp, int64_t offset)
 	}
 }
 
-Dev ipdevtab = {
+Dev ipdevtab __devtab = {
 	'I',
 	"ip",
 

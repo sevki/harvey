@@ -133,7 +133,7 @@ dupwrite(Chan* c, void* v, int32_t i, int64_t n)
 	return 0;		/* not reached */
 }
 
-Dev dupdevtab = {
+Dev dupdevtab __devtab = {
 	'd',
 	"dup",
 

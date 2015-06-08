@@ -729,7 +729,7 @@ cmdproc(void *a)
 }
 #endif
 
-Dev cmddevtab = {
+Dev cmddevtab __devtab = {
 	'C',
 	"cmd",
 

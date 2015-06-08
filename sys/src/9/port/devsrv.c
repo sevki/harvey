@@ -352,7 +352,7 @@ srvwrite(Chan *c, void *va, int32_t n, int64_t mm)
 	return n;
 }
 
-Dev srvdevtab = {
+Dev srvdevtab __devtab = {
 	's',
 	"srv",
 

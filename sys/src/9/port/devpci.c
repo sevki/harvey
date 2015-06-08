@@ -245,7 +245,7 @@ pciwrite(Chan *c, void *va, int32_t n, int64_t offset)
 	return n;
 }
 
-Dev pcidevtab = {
+Dev pcidevtab __devtab = {
 	'$',
 	"pci",
 
