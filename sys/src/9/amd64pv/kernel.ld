@@ -10,20 +10,15 @@ ENTRY(_start)
 /* start the kernel at 0x110000. 
  * That way we can use lower ram for critical structures
  */
-KERN_LOAD_ADDR = 0xfffffffff0000000;
+PROCESS_LOAD_ADDR = 0x0000040000000000;
+KERN_LOAD_ADDR =    0xfffffffff0000000;
 
 SECTIONS
 {
-	/* Entry Linked and loaded at 0x00100000 (includes multiboot) */
-	. = 0x00110000;
-
-	.bootstrap : {
-		*(.boottext .bootdata)
-	}
-
+	. = PROCESS_LOAD_ADDR; 
 	/* Link the main kernel for the space after entry + KERN_LOAD_ADDR.  We'll
 	 * still load it adjacent in physical memory */
-	. += KERN_LOAD_ADDR;
+	. = KERN_LOAD_ADDR;
 
 	.text : AT(ADDR(.text) - KERN_LOAD_ADDR) {
 		*(.text .stub .text.* .gnu.linkonce.t.*)
