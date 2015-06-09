@@ -87,8 +87,8 @@ intrac(Proc *p)
 	/*
 	 * It's ok if the AC gets idle in the mean time.
 	 */
-	DBG("intrac: ipi to cpu%d\n", ac->machno);
-	apicipi(ac->apicno);
+	panic("intrac\n");
+	//apicipi(ac->apicno);
 }
 
 void

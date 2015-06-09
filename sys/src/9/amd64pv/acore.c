@@ -333,9 +333,8 @@ acinit(void)
 	 * Lower the priority of the apic to 0,
 	 * to accept interrupts.
 	 * Raise it later if needed to disable them.
-	 */
 	apicpri(0);
-
+	 */
 	/*
 	 * Be sure a few  assembler assumptions still hold.
 	 * Someone moved m->stack and I had fun debugging...

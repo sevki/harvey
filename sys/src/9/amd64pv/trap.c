@@ -51,6 +51,8 @@ static Intrtime intrtimes[256];
 void*
 intrenable(int irq, void (*f)(Ureg*, void*), void* a, int tbdf, char *name)
 {
+	panic("intrenable");
+#if 0
 	int vno;
 	Vctl *v;
 	extern int ioapicintrenable(Vctl*);
@@ -98,11 +100,15 @@ intrenable(int irq, void (*f)(Ureg*, void*), void* a, int tbdf, char *name)
 	 * of the IOAPIC.
 	 */
 	return v;
+#endif
+	return nil;
 }
 
 int
 intrdisable(void* vector)
 {
+	panic("intrdisable");
+#if 0
 	Vctl *v, *x, **ll;
 	extern int ioapicintrdisable(int);
 
@@ -123,6 +129,7 @@ intrdisable(void* vector)
 	iunlock(&vctllock);
 
 	free(v);
+#endif
 	return 0;
 }
 
@@ -192,6 +199,8 @@ trapenable(int vno, void (*f)(Ureg*, void*), void* a, char *name)
 static void
 nmienable(void)
 {
+	panic("nmienable");
+
 	int x;
 
 	/*
@@ -208,13 +217,13 @@ nmienable(void)
 void
 trapinit(void)
 {
+	print("trapinit does nothing!\n");
 	/*
 	 * Need to set BPT interrupt gate - here or in vsvminit?
 	 */
 	/*
 	 * Special traps.
 	 * Syscall() is called directly without going through trap().
-	 */
 	trapenable(VectorBPT, debugbpt, 0, "#BP");
 	trapenable(VectorPF, faultamd64, 0, "#PF");
 	trapenable(Vector2F, doublefault, 0, "#DF");
@@ -222,6 +231,7 @@ trapinit(void)
 	trapenable(Vector15, unexpected, 0, "#15");
 	nmienable();
 
+	 */
 	addarchfile("irqalloc", 0444, irqallocread, nil);
 }
 

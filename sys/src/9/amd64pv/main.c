@@ -14,7 +14,6 @@
 #include "fns.h"
 
 #include "init.h"
-#include "apic.h"
 #include "io.h"
 #include "amd64.h"
 
@@ -104,6 +103,8 @@ options(int argc, char* argv[])
 void
 squidboy(int apicno, Mach *m)
 {
+	panic("squidboy");
+#if 0
 	// FIX QEMU. extern int64_t hz;
 	int64_t hz;
 	sys->machptr[m->machno] = m;
@@ -188,11 +189,14 @@ squidboy(int apicno, Mach *m)
 		break;
 	}
 	panic("squidboy returns (type %d)", m->nixtype);
+#endif
 }
 
 static void
 testiccs(void)
 {
+	panic("testiccs");
+#if 0
 	int i;
 	Mach *mp;
 	extern void testicc(int);
@@ -202,6 +206,7 @@ testiccs(void)
 		if((mp = sys->machptr[i]) != nil && mp->online && mp->nixtype == NIXAC)
 			testicc(i);
 	print("bootcore: all cores done\n");
+#endif
 }
 
 /*

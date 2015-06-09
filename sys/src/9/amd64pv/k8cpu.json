@@ -1,14 +1,13 @@
 {
     "Name":"k8cpu", 
     "Program": "9k8cpu",
-    "Include":["core.json", "../port/port.json"], 
+    "Include":["core.json", "../ip/ip.json", "../port/port.json"], 
 	"Projects": [
 	"/sys/src/cmd/rc/kernel.json"
 	],
     "Pre": [
     ],
     "SourceFiles":[
-	"devacpi.c",
 	"k8cpu.c",
 	"k8cpu.root.c"
     ],

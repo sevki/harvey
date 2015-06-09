@@ -8,13 +8,11 @@ dev +dev
 	mnt
 	srv
 	dup
-	rtc
 #	ssl
 #	cap
 	kprof
 	pmc	pmcio
 	segment
-	acpi
 	zp
 	ws
 

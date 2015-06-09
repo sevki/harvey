@@ -284,6 +284,8 @@ waitnotstale(Mach *mp, PmcCtr *p)
 	Mach *m = machp();
 	PmcWait *w;
 
+	panic("waitnotstale");
+#if 0
 	p->stale = 1;
 	w = newpmcw();
 	w->next = p->wq;
@@ -298,6 +300,7 @@ waitnotstale(Mach *mp, PmcCtr *p)
 	sleep(&w->r, notstale, p);
 	poperror();
 	pmcwclose(w);
+#endif
 }
 
 /*

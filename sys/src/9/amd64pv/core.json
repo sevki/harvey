@@ -27,11 +27,11 @@
 	"physalloc.c",
 	"random.c",
 	"qmalloc.c",
-	"sipi.c",
 	"syscall.c",
 	"systab.c",
 	"tcore.c",
-	"trap.c"
+	"trap.c",
+	"hack.c"
     ],
     "Pre": [
 	"awk -v objtype=amd64 -f ../mk/parse -- -mkdevc $CONF > $CONF.c",
