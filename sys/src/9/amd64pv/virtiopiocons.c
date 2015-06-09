@@ -100,7 +100,8 @@ int main(int argc, char **argv)
 		pthread_need_tls(FALSE);
 		pthread_lib_init();					/* gives us one vcore */
 		vcore_request(nr_threads - 1);		/* ghetto incremental interface */
-		for (int i = 0; i < nr_threads; i++) {
+		int i;
+		for (i = 0; i < nr_threads; i++) {
 			x = __procinfo.vcoremap;
 			printf("%p\n", __procinfo.vcoremap);
 			printf("Vcore %d mapped to pcore %d\n", i,
@@ -112,7 +113,7 @@ int main(int argc, char **argv)
 //			perror("pth_create failed");
 	printf("threads started\n");
 
-	if (0) for (int i = 0; i < nr_threads-1; i++) {
+	if (0) for (i = 0; i < nr_threads-1; i++) {
 		int ret;
 		if (pthread_join(my_threads[i], &my_retvals[i]))
 			perror("pth_join failed");

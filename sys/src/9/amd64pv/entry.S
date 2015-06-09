@@ -45,6 +45,8 @@ multiboot_header:
 .long MULTIBOOT_HEADER_FLAGS
 .long CHECKSUM
 
+	// how easy is this? This easy: we have paging set up already.
+	// but for now, let's see how it goes.
 	.globl _start
 _start:
 	cli
