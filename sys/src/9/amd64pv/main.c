@@ -456,6 +456,7 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	m->cpuhz = 2000000000ll;
 	m->cpumhz = 2000;
 
+	while (1);
 	cgainit();
 	i8250console("0");
 	

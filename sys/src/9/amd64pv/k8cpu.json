@@ -1,7 +1,7 @@
 {
     "Name":"k8cpu", 
     "Program": "9k8cpu",
-    "Include":["core.json", "../386/386.json", "../ip/ip.json", "../port/port.json"], 
+    "Include":["core.json", "../ip/ip.json", "../port/port.json"], 
 	"Projects": [
 	"/sys/src/cmd/rc/kernel.json"
 	],
@@ -58,8 +58,6 @@
 	"cga.c",
 	"devacpi.c",
 	"devusb.c",
-	"ether8139.c",
-	"ether82563.c",
 	"k8cpu.c",
 	"k8cpu.root.c",
 	"usbehcipc.c",

@@ -43,6 +43,8 @@
     "SourceFiles":[
 	"cga.c",
 	"devacpi.c",
+	"../port/devuart.c",
+	"../port/usbehci.c",
 	"devusb.c",
 	"ether8139.c",
 	"ether82563.c",
