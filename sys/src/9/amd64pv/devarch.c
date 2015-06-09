@@ -596,7 +596,7 @@ timerset(uint64_t x)
 {
 	extern void apictimerset(uint64_t);
 
-	apictimerset(x);
+	print("NO TIMER SET\n");
 }
 
 void

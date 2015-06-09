@@ -428,7 +428,7 @@ trap(Ureg* ureg)
 		 */
 
 		/* clear the interrupt */
-		i8259isr(vno);
+		//i8259isr(vno);
 
 		iprint("cpu%d: spurious interrupt %d, last %d\n",
 			m->machno, vno, m->lastintr);

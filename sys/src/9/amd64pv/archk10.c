@@ -257,8 +257,8 @@ archhz(void)
 	if(hz != 0 || m->machno != 0)
 		return hz;
 
-	iprint("arch hz, cpuidhz failed, going to i8254hz\n");
-	return i8254hz(info0, info1);
+	iprint("arch hz, cpuidhz failed, going to 2000 Mhz.\n");
+	return 2 * 1024 * 1048576;
 }
 
 int

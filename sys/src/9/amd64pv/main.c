@@ -431,7 +431,6 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	 * needs m->machno, sys->machptr[] set, and
 	 * also 'up' set to nil.
 	 */
-	cgapost(sizeof(uintptr_t)*8);
 	memset(m, 0, sizeof(Mach));
 
 	m->machno = 0;
@@ -457,11 +456,7 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	m->cpumhz = 2000;
 
 	while (1);
-	cgainit();
-	i8250console("0");
 	
-	consputs = cgaconsputs;
-
 	/* It all ends here. */
 	vsvminit(MACHSTKSZ, NIXTC, m);
 	if (machp() != m)
@@ -520,21 +515,7 @@ if (0){	acpiinit(); hi("	acpiinit();\n");}
 	trapinit();
 	printinit();
 
-	/*
-	 * This is necessary with GRUB and QEMU.
-	 * Without it an interrupt can occur at a weird vector,
-	 * because the vector base is likely different, causing
-	 * havoc. Do it before any APIC initialisation.
-	 */
-	i8259init(32);
-
 	procinit0();
-	mpsinit(maxcores);
-	apiconline();
-	/* Forcing to single core if desired */
-	if(!nosmp) {
-		sipi();
-	}
 	teardownidmap(m);
 	timersinit();
 	kbdenable();
@@ -546,12 +527,6 @@ if (0){	acpiinit(); hi("	acpiinit();\n");}
 	pageinit();
 	swapinit();
 	userinit();
-	/* Forcing to single core if desired */
-	if(!nosmp) {
-		nixsquids();
-		testiccs();
-	}
-
 	print("schedinit...\n");
 	schedinit();
 }
