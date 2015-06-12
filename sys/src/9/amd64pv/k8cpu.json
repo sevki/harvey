@@ -5,8 +5,8 @@
 	"Projects": [
 	"/sys/src/cmd/rc/kernel.json"
 	],
-    "Pre": [
-
+    "Post": [
+	"objcopy -O binary 9k8cpu 9k8cpu.bin"
     ],
     "SourceFiles":[
 	"k8cpu.c",

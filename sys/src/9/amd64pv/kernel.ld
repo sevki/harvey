@@ -11,7 +11,7 @@ ENTRY(_start)
  * That way we can use lower ram for critical structures
  */
 PROCESS_LOAD_ADDR = 0x0000040000000000;
-KERN_LOAD_ADDR =    0xfffffffff1010000;
+KERN_LOAD_ADDR =    0xffffffff81010000;
 
 SECTIONS
 {
