@@ -191,7 +191,7 @@ squidboy(int apicno, Mach *m)
 	panic("squidboy returns (type %d)", m->nixtype);
 #endif
 }
-
+#if 0
 static void
 testiccs(void)
 {
@@ -254,7 +254,7 @@ nixsquids(void)
 		print("cpu0: %d cores couldn't start\n", active.nbooting);
 	active.nbooting = 0;
 }
-
+#endif
 void
 DONE(void)
 {

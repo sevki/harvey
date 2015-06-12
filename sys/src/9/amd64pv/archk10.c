@@ -258,7 +258,7 @@ archhz(void)
 		return hz;
 
 	iprint("arch hz, cpuidhz failed, going to 2000 Mhz.\n");
-	return 2 * 1024 * 1048576;
+	return 2ULL * 1024 * 1048576;
 }
 
 int

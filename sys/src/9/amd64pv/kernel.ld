@@ -15,6 +15,15 @@ KERN_LOAD_ADDR =    0xffffffff81010000;
 
 SECTIONS
 {
+	/* Entry Linked and loaded at 0x01010000 (includes multiboot) */
+	. = 0x01010000;
+
+	.bootstrap : {
+		*(.boottext .bootdata)
+	}
+
+	/* Link the main kernel for the space after entry + KERN_LOAD_ADDR.  We'll
+	 * still load it adjacent in physical memory */
 /*
 	. = PROCESS_LOAD_ADDR; 
 	.ak : {

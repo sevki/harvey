@@ -30,12 +30,13 @@ unsigned long ire, irx, sce, scx;
 unsigned long irxe;
 
 extern int notify(Ureg*);
-
+#if 0
 static void debugbpt(Ureg*, void*);
 static void faultamd64(Ureg*, void*);
 static void doublefault(Ureg*, void*);
 static void unexpected(Ureg*, void*);
 static void expected(Ureg*, void*);
+#endif
 static void dumpstackwithureg(Ureg*);
 
 static Lock vctllock;
@@ -620,6 +621,7 @@ dumpstack(void)
 	callwithureg(dumpstackwithureg);
 }
 
+#if 0
 static void
 debugbpt(Ureg* ureg, void* v)
 {
@@ -711,7 +713,7 @@ iprint("could not fault %p\n", addr);
 	}
 	m->externup->insyscall = insyscall;
 }
-
+#endif
 /*
  *  return the userpc the last exception happened at
  */

@@ -243,6 +243,7 @@ setctr(uint64_t v, uint32_t regno)
 	return 0;
 }
 
+#if 0
 static int
 notstale(void *x)
 {
@@ -260,7 +261,7 @@ newpmcw(void)
 	w->ref = 1;
 	return w;
 }
-
+#endif
 static void
 pmcwclose(PmcWait *w)
 {
@@ -281,11 +282,11 @@ pmcwclose(PmcWait *w)
 static void
 waitnotstale(Mach *mp, PmcCtr *p)
 {
+	panic("waitnotstale");
+#if 0
 	Mach *m = machp();
 	PmcWait *w;
 
-	panic("waitnotstale");
-#if 0
 	p->stale = 1;
 	w = newpmcw();
 	w->next = p->wq;
