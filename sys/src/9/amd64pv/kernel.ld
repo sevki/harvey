@@ -7,11 +7,10 @@
 
 OUTPUT_FORMAT("elf64-x86-64", "elf64-x86-64", "elf64-x86-64")
 ENTRY(_start)
-/* start the kernel at 0x1010000. 
+/* start the kernel at 0x110000. 
  * That way we can use lower ram for critical structures
  */
-PROCESS_LOAD_ADDR = 0x0000040000000000;
-KERN_LOAD_ADDR =    0xffffffff81010000;
+KERN_LOAD_ADDR = 0xffffffff80000000;
 
 SECTIONS
 {
@@ -24,15 +23,7 @@ SECTIONS
 
 	/* Link the main kernel for the space after entry + KERN_LOAD_ADDR.  We'll
 	 * still load it adjacent in physical memory */
-/*
-	. = PROCESS_LOAD_ADDR; 
-	.ak : {
-	    *(.ak.*)
-	    }
- */
-	/* Link the main kernel for the space after entry + KERN_LOAD_ADDR.  We'll
-	 * still load it adjacent in physical memory */
-	. = KERN_LOAD_ADDR;
+	. += KERN_LOAD_ADDR;
 
 	.text : AT(ADDR(.text) - KERN_LOAD_ADDR) {
 		*(.text .stub .text.* .gnu.linkonce.t.*)
