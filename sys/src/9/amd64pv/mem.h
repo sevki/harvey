@@ -117,7 +117,7 @@
 #define VMAPSZ		(256*MiB)
 #define KSEG0		(0xfffffffff0000000ull)	/* 256MB - this is confused */
 #define KZERO		(0xfffffffff0000000ull)
-#define KTZERO		(KZERO+1*MiB+64*KiB)
+#define KTZERO		(KZERO+16*MiB+64*KiB)
 #define PDMAP		(0xffffffffff800000ull)
 #define PMAPADDR		(0xffffffffffe00000ull)	/* unused as of yet */
 /*			 0xffffffffffffffffull	end of KSEG0 */
@@ -127,7 +127,7 @@
 #define VMAP            (0xffffffffe0000000)
 #define KSEG0           (0xfffffffff0000000)
 #define KZERO           (0xfffffffff0000000)
-#define KTZERO          (KZERO+1*MiB+64*KiB)
+#define KTZERO          (KZERO+16*MiB+64*KiB)
 #define PDMAP           (0xffffffffff800000)
 #define PMAPADDR        (0xffffffffffe00000)
 #endif

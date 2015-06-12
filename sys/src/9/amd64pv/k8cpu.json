@@ -6,10 +6,13 @@
 	"/sys/src/cmd/rc/kernel.json"
 	],
     "Pre": [
+
     ],
     "SourceFiles":[
 	"k8cpu.c",
 	"k8cpu.root.c"
+    ],
+    "ObjectFiles":[
     ],
     "Env": [
 	"CONF=k8cpu"

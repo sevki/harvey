@@ -7,15 +7,20 @@
 
 OUTPUT_FORMAT("elf64-x86-64", "elf64-x86-64", "elf64-x86-64")
 ENTRY(_start)
-/* start the kernel at 0x110000. 
+/* start the kernel at 0x1010000. 
  * That way we can use lower ram for critical structures
  */
 PROCESS_LOAD_ADDR = 0x0000040000000000;
-KERN_LOAD_ADDR =    0xfffffffff0000000;
+KERN_LOAD_ADDR =    0xfffffffff1010000;
 
 SECTIONS
 {
+/*
 	. = PROCESS_LOAD_ADDR; 
+	.ak : {
+	    *(.ak.*)
+	    }
+ */
 	/* Link the main kernel for the space after entry + KERN_LOAD_ADDR.  We'll
 	 * still load it adjacent in physical memory */
 	. = KERN_LOAD_ADDR;
