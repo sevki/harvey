@@ -279,3 +279,4 @@ void dumpgpr(Ureg* ureg);
 int backtrace_list(uintptr_t pc, uintptr_t fp, uintptr_t *pcs, size_t nr_slots);
 
 void vmcall(int);
+void swapgs(void);

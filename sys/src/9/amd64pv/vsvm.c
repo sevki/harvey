@@ -200,8 +200,10 @@ hi("write various msr\n");
 hi("FSbase ...");
 	wrmsr(GSbase, PTR2UINT(&sys->machptr[m->machno]));
 hi("GSbase ...");
-	//wrmsr(KernelGSbase, 0ull);
-hi("NOT KernelGSbase ...");
+	swapgs();
+	wrmsr(GSbase, 0ULL);
+	swapgs();
+hi("KernelGSbase ...");
 
 hi("efer NOT sce since it's already done?\n");
 	//r = rdmsr(Efer);
@@ -215,23 +217,21 @@ hi("efer NOT sce since it's already done?\n");
 	 * If you return with 32-bit ret, then the CS is taken
 	 * as-is. For the SS, 8 is added and you get the DS
 	 * shown above.
-	 * It's long past time to align harvey gdt usage with Linux, it
-	 * will save effort. So do that.
+	 * This is the same on akaros so don't bother.
 	r = ((uint64_t)SSEL(SiU32CS, SsRPL3))<<48;
 	r |= ((uint64_t)SSEL(SiCS, SsRPL0))<<32;
 hi("wrmsr Star\n");
 	wrmsr(Star, r);
 	*/
-	print("--------------> Fix gdt so harvey is same as linux\n");
+	hi("Try to set Lstar\n"); //(0x%llx) to %p\n", Lstar, syscallentry);
 
-	if (0){
 	if(nixtype != NIXAC)
 		wrmsr(Lstar, PTR2UINT(syscallentry));
 	else
 		wrmsr(Lstar, PTR2UINT(acsyscallentry));
 
 	wrmsr(Sfmask, If);
-	}
+
 	if (m != machp()) {
 		panic("vsvminit: m is not machp() at end\n");
 	}

@@ -220,6 +220,10 @@ _start64v:
 vmcall:
 	vmcall	
 	ret
+.globl swapgs
+swapgs:
+	swapgs	
+	ret
 .globl ndnr
 ndnr:	/* no deposit, no return */
 	/* do not resuscitate */
