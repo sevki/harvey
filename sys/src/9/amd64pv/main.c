@@ -272,12 +272,12 @@ HERE(void)
 	delay(5000);
 }
 
-/* The old plan 9 standby ... wave ... */
+/* The old plan 9 standby ... wave ...  now in assembly*/
 
 /* Keep to debug trap.c */
 void wave(int c)
 {
-	outb(0x3f8, c);
+	vmcall(c);
 }
 
 void hi(char *s) 
@@ -312,7 +312,6 @@ void die(char *s)
 	staydead = 1;
 }
 
-/*
 void bmemset(void *p)
 {
 	__asm__ __volatile__("1: jmp 1b");
@@ -342,7 +341,6 @@ void put64(uint64_t v)
 	put32(v>>32);
 	put32(v);
 }
-*/
 
 void debugtouser(void *va)
 {
@@ -410,6 +408,8 @@ teardownidmap(Mach *m)
 void
 main(uint32_t mbmagic, uint32_t mbaddress)
 {
+	uint16_t step = 1;
+	hi("Greetings from our Akaros guest house\n");
 	Mach *m = entrym;
 	/* when we get here, entrym is set to core0 mach. */
 	sys->machptr[m->machno] = m;
@@ -419,6 +419,7 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	if (machp() != m)
 		panic("m and machp() are different!!\n");
 	assert(sizeof(Mach) <= PGSZ);
+	hi("Past nasty step ");put16(step++);wave('\n');
 
 	/*
 	 * Check that our data is on the right boundaries.
@@ -426,17 +427,23 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	 */
 	if (x != 0x123456) 
 		panic("Data is not set up correctly\n");
+	hi("Past nasty step ");put16(step++);wave('\n');
 	memset(edata, 0, end - edata);
 
-	m = (void *) (KZERO + 1048576 + 11*4096);
-	sys = (void *) (KZERO + 1048576);
+	hi("Past nasty step ");put16(step++);wave('\n');
+	m = (void *) (KZERO + 16*1048576 + 11*4096);
+	hi("Past nasty step ");put16(step++);wave('\n');
+	sys = (void *) (KZERO + 16*1048576);
+	hi("Past nasty step ");put16(step++);wave('\n');
 
 	/*
 	 * ilock via i8250enable via i8250console
 	 * needs m->machno, sys->machptr[] set, and
 	 * also 'up' set to nil.
 	 */
+	hi("memset "); put64((uint64_t) m); wave('\n');
 	memset(m, 0, sizeof(Mach));
+	hi("Past nasty step ");put16(step++);wave('\n');
 
 	m->machno = 0;
 	m->online = 1;
@@ -449,9 +456,13 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	active.exiting = 0;
 	active.nbooting = 0;
 
+hi("asminit\n");
 	asminit();
+hi("no multiboot for you...\n");
+	if (0) {
 	multiboot(mbmagic, mbaddress, 0);
 	options(oargc, oargv);
+	}
 
 	/*
 	 * Need something for initial delays
@@ -460,13 +471,13 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	m->cpuhz = 2000000000ll;
 	m->cpumhz = 2000;
 
-	while (1);
-	
 	/* It all ends here. */
+hi("call vsvminit\n");
 	vsvminit(MACHSTKSZ, NIXTC, m);
 	if (machp() != m)
 		panic("After vsvminit, m and machp() are different");
 	fmtinit();
+hi("done fmtinit\n");
 	
 	print("\nHarvey\n");
 	sys->nmach = 1;			
@@ -489,7 +500,6 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 	 */
 	mmuinit();
 	ioinit();
-	kbdinit();
 	meminit();
 	confinit();
 	archinit();
@@ -523,7 +533,6 @@ if (0){	acpiinit(); hi("	acpiinit();\n");}
 	procinit0();
 	teardownidmap(m);
 	timersinit();
-	kbdenable();
 	fpuinit();
 	psinit(conf.nproc);
 	initimage();

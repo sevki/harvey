@@ -165,17 +165,22 @@ vsvminit(int size, int nixtype, Mach *m)
 	Sd *sd;
 	uint64_t r;
 	if(m->machno == 0){
+hi("idtinit\n");
 		idtinit(idt64, PTR2UINT(idthandlers));
-		idtinit(acidt64, PTR2UINT(acidthandlers));
+		//idtinit(acidt64, PTR2UINT(acidthandlers));
 	}
 	m->gdt = m->vsvm;
+hi("init m->gdt\n");
 	memmove(m->gdt, gdt64, sizeof(gdt64));
 	m->tss = &m->vsvm[ROUNDUP(sizeof(gdt64), 16)];
 
 	sd = &((Sd*)m->gdt)[SiTSS];
 	*sd = mksd(PTR2UINT(m->tss), sizeof(Tss)-1, SdP|SdDPL0|SdaTSS, sd+1);
+hi("tssinit\n");
 	tssinit(m, m->stack+size);
+hi("gdt ...");
 	gdtput(sizeof(gdt64)-1, PTR2UINT(m->gdt), SSEL(SiCS, SsTIGDT|SsRPL0));
+hi("put done\n");
 
 #if 0 // NO ACs YET
 	if(nixtype != NIXAC)
@@ -187,12 +192,18 @@ vsvminit(int size, int nixtype, Mach *m)
 #endif
 	// I have no idea how to do this another way.
 	//trput(SSEL(SiTSS, SsTIGDT|SsRPL0));
+hi("ltr next\n");
 	asm volatile("ltr %w0"::"q" (SSEL(SiTSS, SsTIGDT|SsRPL0)));
 
+hi("write various msr\n");
 	wrmsr(FSbase, 0ull);
+hi("FSbase ...");
 	wrmsr(GSbase, PTR2UINT(&sys->machptr[m->machno]));
+hi("GSbase ...");
 	wrmsr(KernelGSbase, 0ull);
+hi("KernelGSbase ...");
 
+hi("efer sce?\n");
 	r = rdmsr(Efer);
 	r |= Sce;
 	wrmsr(Efer, r);
@@ -207,6 +218,7 @@ vsvminit(int size, int nixtype, Mach *m)
 	 */
 	r = ((uint64_t)SSEL(SiU32CS, SsRPL3))<<48;
 	r |= ((uint64_t)SSEL(SiCS, SsRPL0))<<32;
+hi("wrmsr Star\n");
 	wrmsr(Star, r);
 
 	if(nixtype != NIXAC)
@@ -218,6 +230,7 @@ vsvminit(int size, int nixtype, Mach *m)
 	if (m != machp()) {
 		panic("vsvminit: m is not machp() at end\n");
 	}
+hi("vsvminit done\n");
 }
 
 int

@@ -114,7 +114,25 @@ _warp64:
 	movl	%edx, PDPO(KZERO)(%eax)		/* PDPE for KZERO, PMAPADDR */
 
 	addl	$PTSZ, %eax			/* PD at PML4 + 2*PTSZ */
+#if 0
+Do this loop maybe
+	xorl	%eax, %eax
+	.p2align 4,,10
+	.p2align 3
+.L2:
+	movl	%eax, %edx
+	addl	$2097152, %eax
+	addq	$8, %rdi
+	orb	$0x87, %dl
+	movslq	%edx, %rdx
+	movq	%rdx, -8(%rdi)
+	cmpl	$1073741824, %eax
+	jne	.L2
+#endif
 	movl	$(PtePS|PteRW|PteP), %edx
+	// We're loaded at 16M. So add 64 to eax.
+	addl 	$64, %eax
+	addl	$0x1000000, %edx
 	movl	%edx, PDO(0)(%eax)			/* PDE for identity 0-[24]MiB */
 	movl	%edx, PDO(KZERO)(%eax)		/* PDE for KZERO 0-[24]MiB */
 	addl	$PGLSZ(1), %edx
@@ -175,6 +193,20 @@ _start64v:
 	addq	$(MACHSTKSZ), %rax		/* PML4 and top of stack */
 	movq	%rax, %rsp				/* set stack */
 
+// SET MACHNO
+// THIS CAN BE TRIMMED
+	// Don't undo this until all APs are started. Then we don't need to bother
+	// having the APs remap it. Save work.
+	// OK, this part is called "we climbed up the tree on a ladder, now pull
+	// the ladder up after us.". We remove the identity mapping. 
+	addq	$PTSZ, %rax			/* PDP at PML4 + PTSZ */
+	addq	$PTSZ, %rax			/* PD at PML4 + 2*PTSZ */
+	addq	$(2*PTSZ+4*KiB), %rax		/* PD+PT+vsvm */
+	movq	%rax, entrym
+	movq	$0, (%rax) 				/* m->machno = 0 */
+
+// END SETMACHNO
+
 	PUSHQ	%rdx				/* clear flags */
 	POPFQ
 
@@ -184,6 +216,10 @@ _start64v:
 	movq	%rax, %rdi				/* multiboot magic */
 	CALL	main
 
+.globl vmcall
+vmcall:
+	vmcall	
+	ret
 .globl ndnr
 ndnr:	/* no deposit, no return */
 	/* do not resuscitate */
