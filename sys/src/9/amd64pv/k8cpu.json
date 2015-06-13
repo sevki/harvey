@@ -6,7 +6,8 @@
 	"/sys/src/cmd/rc/kernel.json"
 	],
     "Post": [
-	"objcopy -O binary 9k8cpu 9k8cpu.bin"
+	"objcopy -O binary 9k8cpu 9k8cpu.bin",
+	"cp 9k8cpu.bin $AKAROS"
     ],
     "SourceFiles":[
 	"k8cpu.c",

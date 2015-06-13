@@ -200,13 +200,13 @@ hi("write various msr\n");
 hi("FSbase ...");
 	wrmsr(GSbase, PTR2UINT(&sys->machptr[m->machno]));
 hi("GSbase ...");
-	wrmsr(KernelGSbase, 0ull);
-hi("KernelGSbase ...");
+	//wrmsr(KernelGSbase, 0ull);
+hi("NOT KernelGSbase ...");
 
-hi("efer sce?\n");
-	r = rdmsr(Efer);
-	r |= Sce;
-	wrmsr(Efer, r);
+hi("efer NOT sce since it's already done?\n");
+	//r = rdmsr(Efer);
+	//r |= Sce;
+	//wrmsr(Efer, r);
 
 	/* Hey! This is weird! Why a 32-bit CS?
 	 * Because, when you do a retq, the CPU adds 16 to
