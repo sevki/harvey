@@ -7,7 +7,7 @@
 	],
     "Post": [
 	"objcopy -O binary 9k8cpu 9k8cpu.bin",
-	"cp 9k8cpu.bin $AKAROS"
+	"cp 9k8cpu.bin $AKAROS/kern/kfs"
     ],
     "SourceFiles":[
 	"k8cpu.c",

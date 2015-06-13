@@ -474,11 +474,12 @@ hi("no multiboot for you...\n");
 	/* It all ends here. */
 hi("call vsvminit\n");
 	vsvminit(MACHSTKSZ, NIXTC, m);
+hi("back. \n");
 	if (machp() != m)
 		panic("After vsvminit, m and machp() are different");
 	fmtinit();
 hi("done fmtinit\n");
-	
+	hi("call print first time\n");
 	print("\nHarvey\n");
 	sys->nmach = 1;			
 
