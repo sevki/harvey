@@ -200,10 +200,8 @@ hi("write various msr\n");
 hi("FSbase ...");
 	wrmsr(GSbase, PTR2UINT(&sys->machptr[m->machno]));
 hi("GSbase ...");
-	swapgs();
-	wrmsr(GSbase, 0ULL);
-	swapgs();
-hi("KernelGSbase ...");
+	wrmsr(KernelGSbase, 0ULL);
+hi("(shadow) KernelGSbase ...");
 
 hi("efer NOT sce since it's already done?\n");
 	//r = rdmsr(Efer);
