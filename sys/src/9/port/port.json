@@ -9,6 +9,7 @@
 	"../port/devaoe.c",
 	"../port/dev.c",
 	"../port/devcons.c",
+	"../port/devcoreboot.c",
 	"../port/devdup.c",
 	"../port/devenv.c",
 	"../port/devkexec.c",

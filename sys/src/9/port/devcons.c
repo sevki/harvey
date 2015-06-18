@@ -354,7 +354,6 @@ print(char *fmt, ...)
 	int n;
 	va_list arg;
 	char buf[PRINTSIZE];
-
 	va_start(arg, fmt);
 	n = vseprint(buf, buf+sizeof(buf), fmt, arg) - buf;
 	va_end(arg);

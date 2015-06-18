@@ -30,8 +30,6 @@
 #ifndef _COREBOOT_TABLES_H
 #define _COREBOOT_TABLES_H
 
-#include <arch/types.h>
-
 /* Maximum number of memory range definitions. */
 #define SYSINFO_MAX_MEM_RANGES 32
 /* Allow a maximum of 8 GPIOs */
@@ -350,7 +348,21 @@ static inline uint64_t cb_unpack64(struct cbuint64 val)
 
 static inline uint16_t cb_checksum(const void *ptr, unsigned len)
 {
-	return ipchecksum((uint8_t *)ptr, len);
+	uint32_t sum;
+	const uint8_t *addr = ptr;
+
+	sum = 0;
+
+	while(len > 0) {
+		sum += addr[0]<<8 | addr[1] ;
+		len -= 2;
+		addr += 2;
+	}
+
+	sum = (sum & 0xffff) + (sum >> 16);
+	sum = (sum & 0xffff) + (sum >> 16);
+
+	return (sum^0xffff);
 }
 
 static inline const char *cb_mb_vendor_string(const struct cb_mainboard *cbm)
@@ -373,4 +385,5 @@ static inline const char *cb_mb_part_string(const struct cb_mainboard *cbm)
 		+ (sizeof((_rec)->map[0]) * (_idx)))
 
 int get_coreboot_info(struct sysinfo_t *info);
+
 #endif

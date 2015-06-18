@@ -220,13 +220,15 @@ hi("efer NOT sce since it's already done?\n");
 hi("wrmsr Star\n");
 	wrmsr(Star, r);
 	*/
-	hi("Try to set Lstar\n"); //(0x%llx) to %p\n", Lstar, syscallentry);
+	hi("Try to set Lstar from "); put64(rdmsr(Lstar)); wave('\n');
 
 	if(nixtype != NIXAC)
 		wrmsr(Lstar, PTR2UINT(syscallentry));
 	else
 		wrmsr(Lstar, PTR2UINT(acsyscallentry));
 
+	// this is causing a vm exit. So, let's not do it just yet.
+	hi("try to set Sfmask\n");
 	wrmsr(Sfmask, If);
 
 	if (m != machp()) {

@@ -500,12 +500,12 @@ print("m is %p\n", m);
 	 * Mmuinit before meminit because it
 	 * flushes the TLB via m->pml4->pa.
 	 */
-	mmuinit();
-	ioinit();
-	meminit();
-	confinit();
-	archinit();
-	mallocinit();
+	mmuinit();hi("	mmuinit();\n");
+	ioinit();hi("	ioinit();\n");
+	meminit();hi("	meminit();\n");
+	confinit();hi("	confinit();\n");
+	archinit();hi("	archinit();\n");
+	mallocinit();hi("	mallocinit();\n");
 
 	/* test malloc. It's easier to find out it's broken here, 
 	 * not deep in some call chain.
@@ -528,21 +528,21 @@ print("m is %p\n", m);
 	 */
 if (0){	acpiinit(); hi("	acpiinit();\n");}
 	
-	umeminit();
-	trapinit();
-	printinit();
+	umeminit();hi("	umeminit();\n");
+	trapinit();hi("	trapinit();\n");
+	printinit();hi("	printinit();\n");
 
-	procinit0();
-	teardownidmap(m);
-	timersinit();
-	fpuinit();
-	psinit(conf.nproc);
-	initimage();
-	links();
-	devtabreset();
-	pageinit();
-	swapinit();
-	userinit();
+	procinit0();hi("	procinit0();\n");
+	teardownidmap(m);hi("	teardownidmap(m);\n");
+	timersinit();hi("	timersinit();\n");
+	fpuinit();hi("	fpuinit();\n");
+	psinit(conf.nproc);hi("	psinit(conf.nproc);\n");
+	initimage();hi("	initimage();\n");
+	links();hi("	links();\n");
+	devtabreset();hi("	devtabreset();\n");
+	pageinit();hi("	pageinit();\n");
+	swapinit();hi("	swapinit();\n");
+	userinit();hi("	userinit();\n");
 	print("schedinit...\n");
 	schedinit();
 }

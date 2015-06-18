@@ -28,20 +28,12 @@
  * SUCH DAMAGE.
  */
 
-#include <vfs.h>
-#include <kfs.h>
-#include <slab.h>
-#include <kmalloc.h>
-#include <kref.h>
-#include <string.h>
-#include <stdio.h>
-#include <assert.h>
-#include <error.h>
-#include <cpio.h>
-#include <pmap.h>
-#include <smp.h>
-#include <ip.h>
-#include <umem.h>
+#include	"u.h"
+#include	"../port/lib.h"
+#include	"mem.h"
+#include	"dat.h"
+#include	"fns.h"
+#include	"../port/error.h"
 #include <coreboot_tables.h>
 
 /*
@@ -49,6 +41,8 @@
  * since we only support x86, we'll avoid trying to make lots of infrastructure
  * we don't need. If in the future, we want to use coreboot on some other
  * architecture, then take out the generic parsing code and move it elsewhere.
+ * N.B. for Harvey: we're starting it in port and will keep it there. It should
+ * be portable.
  */
 
 /* === Parsing code === */
@@ -178,8 +172,9 @@ static void cb_parse_framebuffer(void *ptr, struct sysinfo_t *info)
 
 static void cb_parse_x86_rom_var_mtrr(void *ptr, struct sysinfo_t *info)
 {
-	struct cb_x86_rom_mtrr *rom_mtrr = ptr;
-	info->x86_rom_var_mtrr_index = rom_mtrr->index;
+	//struct cb_x86_rom_mtrr *rom_mtrr = ptr;
+	panic("%s\n", __func__);
+	//info->x86_rom_var_mtrr_index = rom_mtrr->index;
 }
 
 static void cb_parse_string(unsigned char *ptr, char **info)
@@ -196,7 +191,7 @@ static int cb_parse_header(void *addr, int len, struct sysinfo_t *info)
 
 	for (i = 0; i < len; i += 16, ptr += 16) {
 		header = (struct cb_header *)ptr;
-		if (!strncmp((const char *)header->signature, "LBIO", 4))
+		if (!strncmp(/*(const char *) FIX strncmp */(void *)header->signature, "LBIO", 4))
 			break;
 	}
 
@@ -208,10 +203,10 @@ static int cb_parse_header(void *addr, int len, struct sysinfo_t *info)
 		return 0;
 
 	/* Make sure the checksums match. */
-	if (ipchecksum((uint8_t *) header, sizeof(*header)) != 0)
+	if (cb_checksum(header, sizeof(*header)) != 0)
 		return -1;
 
-	if (ipchecksum((uint8_t *) (ptr + sizeof(*header)),
+	if (cb_checksum((uint8_t *) (ptr + sizeof(*header)),
 		     header->table_bytes) != header->table_checksum)
 		return -1;
 
@@ -328,12 +323,12 @@ int get_coreboot_info(struct sysinfo_t *info)
 
 	/* Ensure the variable range MTRR index covering the ROM is set to
 	 * an invalid value. */
-	info->x86_rom_var_mtrr_index = -1;
+	//info->x86_rom_var_mtrr_index = -1;
 
 	ret = cb_parse_header(KADDR(0x00000000), 0x1000, info);
 
 	if (ret != 1)
 		ret = cb_parse_header(KADDR(0x000f0000), 0x1000, info);
-	printk("get_coreboot_info: ret %d\n", ret);
+	print("get_coreboot_info: ret %d\n", ret);
 	return (ret == 1) ? 0 : -1;
 }

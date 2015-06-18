@@ -335,6 +335,7 @@ void
 _trap(Ureg *ureg)
 {
 	Mach *m = machp();
+hi("trap\n");
 	/*
 	 * If it's a real trap in this core, then we want to
 	 * use the hardware cr2 register.
@@ -365,6 +366,7 @@ trap(Ureg* ureg)
 	vno = ureg->type;
 	uint64_t gsbase = rdmsr(GSbase);
 	//if (sce > scx) iprint("====================");
+	hi("trap "); put32(vno); wave('\n');
 	if (vno == 8) {
 		iprint("Lstar is %p\n", (void *)rdmsr(Lstar));
 		iprint("GSbase is %p\n", (void *)gsbase);
@@ -378,6 +380,7 @@ trap(Ureg* ureg)
 	if (gsbase < 1ULL<<63)
 		die("bogus gsbase");
 	Mach *m = machp();
+	hi("cr2 "); put32(m->cr2); wave('\n');
 	char buf[ERRMAX];
 	Vctl *ctl, *v;
 

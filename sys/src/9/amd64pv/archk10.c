@@ -21,7 +21,7 @@ cpuidinit(void)
 {
 	Mach *m = machp();
 	uint32_t eax, info[4];
-
+print("cpuidinit\n");
 	/*
 	 * Standard CPUID functions.
 	 * Functions 0 and 1 will be needed multiple times
@@ -30,10 +30,12 @@ cpuidinit(void)
 	if((m->ncpuinfos = cpuid(0, 0, m->cpuinfo[0])) == 0)
 		return 0;
 	m->ncpuinfos++;
+print("done 1\n");
 
 	if(memcmp(&m->cpuinfo[0][1], "GenuntelineI", 12) == 0)
 		m->isintelcpu = 1;
 	cpuid(1, 0, m->cpuinfo[1]);
+print("done 1\n");
 
 	/*
 	 * Extended CPUID functions.
@@ -47,6 +49,7 @@ cpuidinit(void)
 		mwait = k10mwait;
 	}
 
+print("done 1\n");
 	return 1;
 }
 
