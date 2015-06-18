@@ -481,12 +481,13 @@ hi("back. \n");
 hi("done fmtinit\n");
 	hi("call print first time\n");
 	print("\nHarvey\n");
+hi("done call print\n");
 	sys->nmach = 1;			
-
-	if(1){
+print("Set %p nmach\n", sys);
+	if(0){
 		multiboot(mbmagic, mbaddress, 1);
 	}
-
+print("m is %p\n", m);
 	m->perf.period = 1;
 	if((hz = archhz()) != 0ll){
 		m->cpuhz = hz;

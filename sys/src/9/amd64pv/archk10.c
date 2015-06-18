@@ -243,6 +243,7 @@ archhz(void)
 	int64_t hz;
 	uint32_t info0[4], info1[4];
 
+	return 2ULL * 1024 * 1048576;
 	if(!cpuidinfo(0, 0, info0)) {
 		iprint("archhz: cpuidinfo(0, 0) failed\n");
 		return 0;
@@ -293,9 +294,10 @@ archmmu(void)
 	/*
 	 * Check the Pse bit in function 1 DX for 2*MiB support;
 	 * if false, only 4*KiB is available.
-	 */
+	 * we have it.
 	if(!(m->cpuinfo[1][3] & 0x00000008))
 		return 1;
+	 */
 	m->pgszlg2[1] = 21;
 	m->pgszmask[1] = (1<<21)-1;
 	m->pgsz[1] = 1<<21;
@@ -304,6 +306,8 @@ archmmu(void)
 	/*
 	 * Check the Page1GB bit in function 0x80000001 DX for 1*GiB support.
 	 */
+	/* we don't have it. */
+	if (0)
 	if(cpuidinfo(0x80000001, 0, info) && (info[3] & 0x04000000)){
 		m->pgszlg2[2] = 30;
 		m->pgszmask[2] = (1<<30)-1;

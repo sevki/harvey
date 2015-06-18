@@ -318,6 +318,8 @@ putstrn0(char *str, int n, int usewrite)
 	if(!islo())
 		usewrite = 0;
 
+str[n] = 0; hi(str);
+return;
 	for(i = 0; i < nconsdevs; i++){
 		c = &consdevs[i];
 		len = n;
@@ -398,6 +400,10 @@ iprint(char *fmt, ...)
 	n = vseprint(buf, buf+sizeof(buf), fmt, arg) - buf;
 	va_end(arg);
 	locked = iprintcanlock(&iprintlock);
+	if (1) {
+		buf[n] = 0;
+		hi(buf);
+	} else {
 	for(i = 0; i < nconsdevs; i++)
 		if((consdevs[i].flags&Ciprint) != 0){
 			if(consdevs[i].q != nil)
@@ -405,6 +411,7 @@ iprint(char *fmt, ...)
 			else
 				consdevs[i].fn(buf, n);
 		}
+	}
 	if(locked)
 		unlock(&iprintlock);
 	splx(pl);

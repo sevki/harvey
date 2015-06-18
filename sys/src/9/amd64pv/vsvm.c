@@ -163,7 +163,6 @@ void
 vsvminit(int size, int nixtype, Mach *m)
 {
 	Sd *sd;
-	uint64_t r;
 	if(m->machno == 0){
 hi("idtinit\n");
 		idtinit(idt64, PTR2UINT(idthandlers));

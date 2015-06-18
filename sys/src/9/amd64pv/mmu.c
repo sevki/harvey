@@ -829,9 +829,11 @@ mmuinit(void)
 
 	m->pml4 = page;
 
-	r = rdmsr(Efer);
-	r |= Nxe;
-	wrmsr(Efer, r);
+	if (0) {
+		r = rdmsr(Efer);
+		r |= Nxe;
+		wrmsr(Efer, r);
+	}
 
 	/*
 	 * Set up the various kernel memory allocator limits:

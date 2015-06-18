@@ -493,11 +493,53 @@ trap(Ureg* ureg)
 
 /*
  * Dump general registers.
+ * Note: don't use iprint for a little while for a simple reason:
+ * it might be broken ...
+ * note: plan 9 convention is to avoid #if 0 whereever possible. Let the compiler
+ * figure out what to strip out of the binary. #if 0 is for the 1970s, disco era
+ * programming.
  */
+int avoid_iprint = 1;
 void
 dumpgpr(Ureg* ureg)
 {
 	Mach *m = machp();
+	if (avoid_iprint) {
+	hi("cpu");put16(m->machno);
+	if(m->externup != nil) {
+		hi(": registers for "); hi(m->externup->text); wave(' '); put32(m->externup->pid); wave('\n');
+	} else {
+		hi(": registers for kernel\n");
+	}
+
+	hi("ax"); put64(ureg->ax);wave('\n');
+	hi("bx"); put64(ureg->bx);wave('\n');
+	hi("cx"); put64(ureg->cx);wave('\n');
+	hi("dx"); put64(ureg->dx);wave('\n');
+	hi("di"); put64(ureg->di);wave('\n');
+	hi("si"); put64(ureg->si);wave('\n');
+	hi("bp"); put64(ureg->bp);wave('\n');
+	hi("r8"); put64(ureg->r8);wave('\n');
+	hi("r9"); put64(ureg->r9);wave('\n');
+	hi("r10"); put64(ureg->r10);wave('\n');
+	hi("r11"); put64(ureg->r11);wave('\n');
+	hi("r12"); put64(ureg->r12);wave('\n');
+	hi("r13"); put64(ureg->r13);wave('\n');
+	hi("r14"); put64(ureg->r14);wave('\n');
+	hi("r15"); put64(ureg->r15);wave('\n');
+	hi("type"); put64(ureg->type);wave('\n');
+	hi("error"); put64(ureg->error);wave('\n');
+	hi("pc"); put64(ureg->ip);wave('\n');
+	hi("cs"); put64(ureg->cs);wave('\n');
+	hi("flags"); put64(ureg->flags);wave('\n');
+	hi("sp"); put64(ureg->sp);wave('\n');
+	hi("ss"); put64(ureg->ss);wave('\n');
+	hi("type"); put64(ureg->type);wave('\n');
+	hi("FS"); put64(rdmsr(FSbase));wave('\n');
+	hi("GS"); put64(rdmsr(GSbase));wave('\n');
+wave('\n');
+
+	} else {
 	if(m->externup != nil)
 		iprint("cpu%d: registers for %s %d\n",
 			m->machno, m->externup->text, m->externup->pid);
@@ -531,6 +573,7 @@ dumpgpr(Ureg* ureg)
 	iprint("GS\t%#llux\n", rdmsr(GSbase));
 
 	iprint("m\t%#16.16p\nup\t%#16.16p\n", m, m->externup);
+	}
 }
 
 void
@@ -547,9 +590,15 @@ dumpregs(Ureg* ureg)
 	 * CR4. If there is a CR4 and machine check extensions, read the machine
 	 * check address and machine check type registers if RDMSR supported.
 	 */
-	iprint("cr0\t%#16.16llux\n", cr0get());
-	iprint("cr2\t%#16.16llux\n", m->cr2);
-	iprint("cr3\t%#16.16llux\n", cr3get());
+	if (avoid_iprint) {
+		hi("cr0"); put64(cr0get()); wave('\n');
+		hi("cr2"); put64(m->cr2); wave('\n');
+		hi("cr3"); put64(cr3get()); wave('\n');
+	} else {
+		iprint("cr0\t%#16.16llux\n", cr0get());
+		iprint("cr2\t%#16.16llux\n", m->cr2);
+		iprint("cr3\t%#16.16llux\n", cr3get());
+	}
 die("dumpregs");
 //	archdumpregs();
 }

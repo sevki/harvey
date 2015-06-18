@@ -264,6 +264,7 @@ void DONE(void);
 
 /* all these go to 0x3f8 */
 void hi(char *s);
+void wave(int);
 void put64(uint64_t);
 void put32(uint32_t);
 void put16(uint16_t);
