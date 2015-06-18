@@ -16,6 +16,7 @@
 #include "init.h"
 #include "io.h"
 #include "amd64.h"
+#include <coreboot_tables.h>
 
 #undef DBG
 #define DBG iprint
@@ -408,6 +409,7 @@ teardownidmap(Mach *m)
 void
 main(uint32_t mbmagic, uint32_t mbaddress)
 {
+	static struct sysinfo_t info;
 	uint16_t step = 1;
 	hi("Greetings from our Akaros guest house\n");
 	Mach *m = entrym;
@@ -463,7 +465,7 @@ hi("no multiboot for you...\n");
 	multiboot(mbmagic, mbaddress, 0);
 	options(oargc, oargv);
 	}
-
+	get_coreboot_info(&info);
 	/*
 	 * Need something for initial delays
 	 * until a timebase is worked out.
