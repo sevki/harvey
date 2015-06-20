@@ -21,6 +21,9 @@
 #undef DBG
 #define DBG iprint
 
+// Iniitalize the coreboot_tables, so it ends up in 'D', so akaros can set it
+// and harvey won't clear it when it clear bss.
+uint8_t coreboot_tables[4096] = {'L'};
 Conf conf;			/* XXX - must go - gag */
 
 static uintptr_t sp;		/* XXX - must go - user stack of init proc */
@@ -407,7 +410,7 @@ teardownidmap(Mach *m)
 
 
 void
-main(uint32_t mbmagic, uint32_t mbaddress)
+main(void)
 {
 	static struct sysinfo_t info;
 	uint16_t step = 1;
@@ -460,12 +463,7 @@ main(uint32_t mbmagic, uint32_t mbaddress)
 
 hi("asminit\n");
 	asminit();
-hi("no multiboot for you...\n");
-	if (0) {
-	multiboot(mbmagic, mbaddress, 0);
-	options(oargc, oargv);
-	}
-	get_coreboot_info(&info);
+	get_coreboot_info((void *)coreboot_tables, &info);
 	/*
 	 * Need something for initial delays
 	 * until a timebase is worked out.
@@ -486,9 +484,6 @@ hi("done fmtinit\n");
 hi("done call print\n");
 	sys->nmach = 1;			
 print("Set %p nmach\n", sys);
-	if(0){
-		multiboot(mbmagic, mbaddress, 1);
-	}
 print("m is %p\n", m);
 	m->perf.period = 1;
 	if((hz = archhz()) != 0ll){

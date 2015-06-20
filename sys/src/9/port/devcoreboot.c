@@ -191,24 +191,36 @@ static int cb_parse_header(void *addr, int len, struct sysinfo_t *info)
 
 	for (i = 0; i < len; i += 16, ptr += 16) {
 		header = (struct cb_header *)ptr;
-		if (!strncmp(/*(const char *) FIX strncmp */(void *)header->signature, "LBIO", 4))
-			break;
+		hi("H"); hi(header->signature); hi(" \n");
+		if (header->signature[0] == 'L' &&
+		   header->signature[1] == 'B' &&
+		   header->signature[2] == 'I' &&
+		   header->signature[3] == 'O')
+		break;
 	}
 
 	/* We walked the entire space and didn't find anything. */
-	if (i >= len)
+	if (i >= len) {
+		hi("no header?\n");
 		return -1;
+	}
 
-	if (!header->table_bytes)
+	if (!header->table_bytes) {
+		hi("NO BYTES?\n");
 		return 0;
+	}
 
 	/* Make sure the checksums match. */
-	if (cb_checksum(header, sizeof(*header)) != 0)
+	if (cb_checksum(header, sizeof(*header)) != 0){
+		hi("BAD CSUM?\n");
 		return -1;
+	}
 
 	if (cb_checksum((uint8_t *) (ptr + sizeof(*header)),
-		     header->table_bytes) != header->table_checksum)
+		     header->table_bytes) != header->table_checksum) {
+		hi("BAD cb_checksum?\n");
 		return -1;
+	}
 
 	info->header = header;
 
@@ -225,6 +237,7 @@ static int cb_parse_header(void *addr, int len, struct sysinfo_t *info)
 			return cb_parse_header(forward, len, info);
 			continue;
 		case CB_TAG_MEMORY:
+			hi("MEMORY!\n");
 			cb_parse_memory(ptr, info);
 			break;
 		case CB_TAG_SERIAL:
@@ -317,7 +330,7 @@ static int cb_parse_header(void *addr, int len, struct sysinfo_t *info)
 /* == Architecture specific == */
 /* This is the x86 specific stuff. */
 
-int get_coreboot_info(struct sysinfo_t *info)
+int get_coreboot_info(void *coreboot_tables, struct sysinfo_t *info)
 {
 	int ret;
 
@@ -325,10 +338,10 @@ int get_coreboot_info(struct sysinfo_t *info)
 	 * an invalid value. */
 	//info->x86_rom_var_mtrr_index = -1;
 
-	ret = cb_parse_header(KADDR(0x00000000), 0x1000, info);
+	ret = cb_parse_header(coreboot_tables, 0x1000, info);
 
 	if (ret != 1)
-		ret = cb_parse_header(KADDR(0x000f0000), 0x1000, info);
+		panic("Can't find coreboot tables");
 	print("get_coreboot_info: ret %d\n", ret);
 	return (ret == 1) ? 0 : -1;
 }

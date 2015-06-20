@@ -384,6 +384,6 @@ static inline const char *cb_mb_part_string(const struct cb_mainboard *cbm)
 	(void *)(((uint8_t *) (_rec)) + sizeof(*(_rec)) \
 		+ (sizeof((_rec)->map[0]) * (_idx)))
 
-int get_coreboot_info(struct sysinfo_t *info);
+int get_coreboot_info(void *, struct sysinfo_t *info);
 
 #endif
